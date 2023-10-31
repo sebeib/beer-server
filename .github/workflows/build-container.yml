@@ -18,6 +18,7 @@ jobs:
           VERSION: ${{ github.ref_name}}
           REPO: ${{ github.repository }}
         run: |
+          echo $GH_TOKEN
           echo $GH_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
           docker build . --file Dockerfile --tag ghcr.io/$REPO:$VERSION
           docker push ghcr.io/$REPO:$VERSION
