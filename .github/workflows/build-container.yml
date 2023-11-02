@@ -31,4 +31,4 @@ jobs:
         run: |
           echo $GH_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
           docker build . --file Dockerfile --tag ghcr.io/$NAMESPACE/REPONAME:$VERSION
-          docker push ghcr.io/$NAMESPACE/REPONAME
+          docker push ghcr.io/$NAMESPACE/REPONAME:$VERSION
