@@ -9,15 +9,6 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-
-	maven {
-		url = uri("https://maven.pkg.github.com/SebastianEibisch/package")
-		credentials {
-			username = project.findProperty("gpr.user") ?: System.getenv("GH_USERNAME")
-			password = project.findProperty("gpr.key") ?: System.getenv("GH_TOKEN")
-		}
-	}
-
 	mavenLocal()
 	mavenCentral()
 }
@@ -27,7 +18,6 @@ dependencies {
 	implementation 'org.jsoup:jsoup:1.16.1'
 	implementation 'com.google.code.gson:gson:2.10.1'
 	implementation 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.2'
-
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
