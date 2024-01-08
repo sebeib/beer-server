@@ -1,4 +1,6 @@
-package de.seb.beer.server.domain;
+package de.seb.beer.server.domain.raw;
+
+import de.seb.beer.server.domain.Retailer;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,6 +14,7 @@ public record RawOffer(
         BigDecimal price,
         String description,
         List<Validity>validityDates,
-        Product product
+        Product product,
+        List<Category> categories
     ) { }
 }

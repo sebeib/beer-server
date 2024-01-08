@@ -1,8 +1,10 @@
 package de.seb.beer.server.service;
 
 import de.seb.beer.server.domain.Beer;
+import de.seb.beer.server.domain.Discount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +27,9 @@ public class BeerRestService {
     }
 
     @GetMapping("poll")
+    @CrossOrigin(origins = "*")
     public RestResponse poll() throws Exception {
+        LOG.info("Start polling discounts ...");
         LocalDate today = LocalDate.now();
         LocalDate lastFetched = offerService.getOffersFetched();
 
@@ -36,12 +40,15 @@ public class BeerRestService {
             LOG.info("... offers fetched.");
         }
 
+        LOG.info("... finished polling discounts.");
         return new RestResponse(
                 offerService.getOffersFetched(),
-                offerService.getOffers()
+                offerService.getOffers().entrySet().stream()
+                        .map(entry -> new Discount(entry.getKey(), entry.getValue())).
+                        toList()
         );
     }
 
-    record RestResponse(LocalDate lastFetched, Map<String, List<Beer>> offers) {}
+    record RestResponse(LocalDate lastFetched, List<Discount> offers) {}
 
 }
