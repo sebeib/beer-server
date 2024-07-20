@@ -29,7 +29,7 @@ public class ScrapeService {
 
     public Map<String, List<Beer>> scrape(String zip) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(URL.replace("$ZIP$", zip)))
+                .uri(URI.create(URL.replace("%ZIP%", zip)))
                 .header("X-ApiKey", TOKEN)
                 .GET()
                 .build();
