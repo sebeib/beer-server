@@ -36,7 +36,7 @@ public class BeerRestService {
 
         if(lastFetched == null || today.isAfter(lastFetched)) {
             LOG.info("Fetching new offers ...");
-            Map<String, List<Beer>> offers = scrapeService.scrape();
+            Map<String, List<Beer>> offers = scrapeService.scrape(zip);
             offerService.storeOffers(offers, zip);
             LOG.info("... offers fetched.");
         }

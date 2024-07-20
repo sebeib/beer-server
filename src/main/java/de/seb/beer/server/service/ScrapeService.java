@@ -27,9 +27,9 @@ public class ScrapeService {
     private final HttpClient httpClient = HttpClient.newBuilder().build();
     private final Gson gson = Converters.registerZonedDateTime(new GsonBuilder()).create();
 
-    public Map<String, List<Beer>> scrape() throws Exception {
+    public Map<String, List<Beer>> scrape(String zip) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(URL))
+                .uri(URI.create(URL.replace("$ZIP$", zip)))
                 .header("X-ApiKey", TOKEN)
                 .GET()
                 .build();
