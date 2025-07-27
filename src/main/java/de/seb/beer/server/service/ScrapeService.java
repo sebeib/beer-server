@@ -21,15 +21,16 @@ public class ScrapeService {
 
     private static final String URL   = System.getenv("URL");
     private static final String TOKEN = System.getenv("TOKEN");
-    private static final Predicate<RawOffer.Result> IS_BEER = item -> item.categories().stream().anyMatch(i -> i.id() == 361 || i.id() == 362);
-    private static final Predicate<RawOffer.Result> IS_CRATE = item -> item.description().contains("20 x 0,5");
+    public static final Predicate<RawOffer.Result> IS_BEER = item -> item.categories().stream().anyMatch(i -> i.id() == 361 || i.id() == 362);
+    public static final Predicate<RawOffer.Result> IS_SPEZI = item -> item.categories().stream().anyMatch(i -> i.id() == 359);
+    public static final Predicate<RawOffer.Result> IS_CRATE = item -> item.description().contains("20 x 0,5");
 
     private final HttpClient httpClient = HttpClient.newBuilder().build();
     private final Gson gson = Converters.registerZonedDateTime(new GsonBuilder()).create();
 
-    public Map<String, List<Beer>> scrape(String zip) throws Exception {
+    public Map<String, List<Beer>> scrape(String query, String zip, Predicate<RawOffer.Result> filter) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(URL.replace("%ZIP%", zip)))
+                .uri(URI.create(URL.replace("%ZIP%", zip).replace("%QUERY%", query)))
                 .header("X-ApiKey", TOKEN)
                 .GET()
                 .build();
@@ -40,7 +41,7 @@ public class ScrapeService {
 
         return rawOffer.results()
                 .stream()
-                .filter(IS_BEER.and(IS_CRATE))
+                .filter(filter)
                 .map(offer -> new Beer(
                         offer.price(),
                         offer.description(),
