@@ -47,6 +47,16 @@ public class BeerRestService {
         return poll("spezi", zip, IS_SPEZI);
     }
 
+    @GetMapping("poll/monster")
+    @CrossOrigin(origins = "*")
+    public RestResponse pollMonsterEnergy(@RequestParam("zip") String zip) throws Exception {
+        if(zip == null) {
+            throw new RuntimeException("Zip code is missing.");
+        }
+
+        return poll("monster%20energy", zip, offer -> true);
+    }
+
     private RestResponse poll(String query, String zip, Predicate<RawOffer.Result> filter) throws Exception {
         LOG.info("Start polling discounts ...");
         LocalDate today = LocalDate.now();
